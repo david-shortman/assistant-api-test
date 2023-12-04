@@ -1,0 +1,57 @@
+{
+  "name": "test-data",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/test-data/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/test-data",
+        "main": "apps/test-data/src/main.ts",
+        "tsConfig": "apps/test-data/tsconfig.app.json",
+        "assets": ["apps/test-data/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/test-data/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "test-data:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "test-data:build:development"
+        },
+        "production": {
+          "buildTarget": "test-data:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/test-data/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/test-data/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
